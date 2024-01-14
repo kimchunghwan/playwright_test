@@ -42,5 +42,6 @@ jobs:
 
     - name: npm install, build, and test
       run: |
+        npx playwright install
         npm install
         npm run test --if-present
