@@ -45,3 +45,9 @@ jobs:
         npm install
         npx playwright install
         npm run test --if-present
+        
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage-report
+        path: test-results
