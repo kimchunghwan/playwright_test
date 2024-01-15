@@ -47,6 +47,7 @@ jobs:
         npm install
         npx playwright install
         npm run test --if-present
+        npm run upload:files
         
     - name: Archive code coverage results
       uses: actions/upload-artifact@v3
