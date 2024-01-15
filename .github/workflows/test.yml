@@ -43,6 +43,8 @@ jobs:
         cache: 'npm'
 
     - name: npm install, build, and test
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       run: |
         npm install
         npx playwright install
