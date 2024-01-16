@@ -1,5 +1,6 @@
 const { WebClient, LogLevel } = require("@slack/web-api");
 const {createReadStream} = require('fs');
+const combineImage = require('combine-image');
 // WebClient instantiates a client that can call API methods
 // When using Bolt, you can use either `app.client` or the `client` passed to listeners.
 const client = new WebClient(process.env.SLACK_BOT_TOKEN, {
@@ -15,19 +16,18 @@ const channelId = "C032JKDP3TJ";
 const uploadFile = async () => {
   
   try {
-    const files = getfiles(folder)
-    const result = await Promise.all[
-      files.map(async (fileName) => {
-        const result = await client.files.upload({
-          // channels can be a list of one to many strings
-          channels: channelId,
-          initial_comment: `${fileName} :smile:`,
-          // Include your filename in a ReadStream here
-          file: createReadStream(folder + fileName)
-        });
-        console.log(result);
-      })  
-    ]
+    const files = getfiles(folder);
+    const images = files.map((fileName) => folder + fileName);
+    await combineImage(images, { direction: "horizontal" }).then((img) =>
+      img.write("./combined.png")
+    );
+    await client.files.upload({
+      // channels can be a list of one to many strings
+      channels: channelId,
+      initial_comment: `:smile:`,
+      // Include your filename in a ReadStream here
+      file: createReadStream("./combined.png"),
+    });
   }
   catch (error) {
     console.error(error);
