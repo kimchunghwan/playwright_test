@@ -20,5 +20,6 @@ test('finviz home', async({page}) => {
     // finviz쪽에서 크롤링을 막은듯해서 state load가 안되는듯 하여 임시처리
   }
   await page.waitForTimeout(10000);
-  await page.locator('.fv-container').screenshot({ path: `./${testResultPath}/finviz-home.png` })
+  page.locator('.fv-container').screenshot({ path: `./${testResultPath}/finviz-home.png` })
+
 })
