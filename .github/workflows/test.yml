@@ -43,6 +43,7 @@ jobs:
         cache: 'npm'
 
     - name: npm install, build, and test
+      timeout-minutes: 5
       env:
         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       run: |
@@ -50,7 +51,7 @@ jobs:
         npx playwright install
         npm run test --if-present
         npm run upload:files
-        
+
     - name: Archive code coverage results
       uses: actions/upload-artifact@v3
       with:
