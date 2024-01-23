@@ -16,11 +16,10 @@ test('finviz home', async({page}) => {
   page.setViewportSize({ width: 1920, height: 1920 })
   try {
     page.goto('https://finviz.com/');
+    await page.waitForTimeout(10000);
+    page.locator('.fv-container').screenshot({ path: `./${testResultPath}/finviz-home.png` })
+    await page.waitForTimeout(5000);
   } catch (error) {
     // finviz쪽에서 크롤링을 막은듯해서 state load가 안되는듯 하여 임시처리
   }
-  await page.waitForTimeout(10000);
-  page.locator('.fv-container').screenshot({ path: `./${testResultPath}/finviz-home.png` })
-  await page.waitForTimeout(5000);
-
 })
