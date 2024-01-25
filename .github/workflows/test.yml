@@ -22,7 +22,7 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
   schedule:
-    - cron:  '25 0 * * 1-5'
+    - cron:  '0 0 * * 1-5'
 
 env:
   NODE_VERSION: '18.x'                # set this to the node version to use
