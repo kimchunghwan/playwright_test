@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 const testResultPath = "test-results";
-test("test", async ({ page }) => {
+test("kospi, kosdaq", async ({ page }) => {
   await page.goto("https://finance.naver.com/sise/sise_index.naver?code=KOSPI");
   await page.getByText("월", { exact: true }).click();
   await page.waitForTimeout(1000);
@@ -47,8 +47,6 @@ test("finviz home", async ({ page }) => {
     ".fv-container"
   );
 });
-
-test.describe("finviz sectors", () => {});
 
 test.describe("finviz symbols", () => {
   const symbols = ["TSLA", "PLTR", "ADBE", "SNOW", "QQQ", "SOXX"];
