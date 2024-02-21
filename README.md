@@ -6,4 +6,5 @@
 - playwright get screenshot
 - self hosted runner
   - https://github.com/pricing/calculator
-  -  
+  - https://github.com/kimchunghwan/playwright_test/pull/11
+  
