@@ -4,3 +4,6 @@
 - github actions schedule
 - slack upload files
 - playwright get screenshot
+- self hosted runner
+  - https://github.com/pricing/calculator
+  -  
