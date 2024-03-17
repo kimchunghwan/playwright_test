@@ -47,6 +47,7 @@ jobs:
       env:
         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       run: |
+        set |grep SLACK_BOT_TOKEN
         npm ci
         npx playwright install
         npm run test --if-present
