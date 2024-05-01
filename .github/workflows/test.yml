@@ -50,7 +50,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-playwright-
 
-    - name: npm install, build, and test
+    - name: npm install, build
       timeout-minutes: 5
       env:
         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -58,6 +58,12 @@ jobs:
         set |grep SLACK_BOT_TOKEN
         npm ci
         npx playwright install
+
+    - name: test and upload
+      timeout-minutes: 5
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      run: |        
         npm run test --if-present
         npm run upload:files
 
