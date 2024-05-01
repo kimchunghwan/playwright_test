@@ -50,11 +50,28 @@ jobs:
         set |grep SLACK_BOT_TOKEN
         npm ci
         npx playwright install
-        npm run test --if-present
-        npm run upload:files
+        
+  run-ko: 
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: npm install, build, and test
+        timeout-minutes: 5
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: |
+          npm run test --if-present
+          npm run upload:files
 
-    - name: Archive code coverage results
-      uses: actions/upload-artifact@v3
-      with:
-        name: kospi-kosdaq
-        path: test-results
+          
+  run-us: 
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: npm install, build, and test
+        timeout-minutes: 5
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: |
+          npm run test --if-present
+          npm run upload:files
