@@ -51,10 +51,12 @@ jobs:
         npm ci
         npx playwright install
         npm run test --if-present
-        npm run upload:files
 
     - name: Archive code coverage results
       uses: actions/upload-artifact@v3
       with:
         name: kospi-kosdaq
         path: test-results
+        
+    - name: upload to slack 
+      run: npm run upload:files

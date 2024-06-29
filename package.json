@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
+    "test:stock-kr": "playwright test tests/stock-kr.spec.ts",
+    "test:stock-us": "playwright test tests/stock-us.spec.ts",
     "upload:files": "node upload-files.js"
   },
   "keywords": [],
