@@ -53,10 +53,10 @@ jobs:
         npm run test --if-present
 
     - name: Archive code coverage results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: kospi-kosdaq
         path: test-results
-        
+
     - name: upload to slack 
       run: npm run upload:files

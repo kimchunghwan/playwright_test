@@ -22,12 +22,12 @@ const uploadFile = async () => {
     const result = await Promise.all[
       files.map(async (fileName) => {
         const url = getUrlFromFilename(fileName);
-        const result = await client.files.upload({
+        const result = await client.files.uploadV2({
           // channels can be a list of one to many strings
           channels: channelId,
           initial_comment: `${fileName} :smile: ${url}`,
-          // Include your filename in a ReadStream here
-          file: createReadStream(folder + fileName),
+          file: folder + fileName,
+          filename: fileName,
         });
         console.log(result);
       })
