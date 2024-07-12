@@ -24,7 +24,7 @@ const uploadFile = async () => {
         const url = getUrlFromFilename(fileName);
         const result = await client.files.uploadV2({
           // channels can be a list of one to many strings
-          channels: channelId,
+          channel: channelId,
           initial_comment: `${fileName} :smile: ${url}`,
           file: folder + fileName,
           filename: fileName,
