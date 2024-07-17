@@ -48,9 +48,9 @@ test("finviz home", async ({ page }) => {
   );
 });
 
-export const FINVIZ_SYMBOLS = ["TSLA", "PLTR", "ADBE", "SNOW", "QQQ", "SOXX"];
+export const FINVIZ_SYMBOLS = ["TSLA", "PLTR", "QQQ", "SOXX", "SCHD", "IVV"];
 export const finvizURL = (symbol: string) => {
-  return `https://finviz.com/quote.ashx?t=${symbol}&p=d`;
+  return `https://finviz.com/quote.ashx?t=${symbol}&p=w`;
 };
 test.describe("finviz symbols", () => {
   for (const symbol of FINVIZ_SYMBOLS) {

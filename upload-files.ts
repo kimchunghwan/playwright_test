@@ -7,9 +7,9 @@ const client = new WebClient(process.env.SLACK_BOT_TOKEN, {
   logLevel: LogLevel.DEBUG,
 });
 
-const FINVIZ_SYMBOLS = ["TSLA", "PLTR", "ADBE", "SNOW", "QQQ", "SOXX"];
+const FINVIZ_SYMBOLS = ["TSLA", "PLTR", "QQQ", "SOXX", "SCHD"];
 const finvizURL = (symbol: string) => {
-  return `https://finviz.com/quote.ashx?t=${symbol}&p=d`;
+  return `https://finviz.com/quote.ashx?t=${symbol}&p=w`;
 };
 // The name of the file you're going to upload
 const folder = "./test-results/";
