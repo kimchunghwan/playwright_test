@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { FINVIZ_SYMBOLS } from "../define";
 
 const testResultPath = "test-results";
 test("kospi, kosdaq", async ({ page }) => {
@@ -27,12 +28,12 @@ const finvizCapture = async (
 ) => {
   page.setViewportSize({ width: 1920, height: 1920 });
   try {
-    page.goto(url).catch((e) => {});
+    page.goto(url).catch((e: any) => {});
     await page.waitForTimeout(2000);
     page
       .locator(locator)
       .screenshot({ path })
-      .catch((e) => {});
+      .catch((e: any) => {});
     await page.waitForTimeout(2000);
   } catch (error) {
     // finviz쪽에서 크롤링을 막은듯해서 state load가 안되는듯 하여 임시처리
@@ -48,7 +49,6 @@ test("finviz home", async ({ page }) => {
   );
 });
 
-export const FINVIZ_SYMBOLS = ["TSLA", "PLTR", "QQQ", "SOXX", "SCHD", "IVV"];
 export const finvizURL = (symbol: string) => {
   return `https://finviz.com/quote.ashx?t=${symbol}&p=w`;
 };

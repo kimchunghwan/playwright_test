@@ -1,5 +1,6 @@
 import { WebClient, LogLevel } from "@slack/web-api";
 import fs from "fs";
+import { FINVIZ_SYMBOLS } from "./define";
 // WebClient instantiates a client that can call API methods
 // When using Bolt, you can use either `app.client` or the `client` passed to listeners.
 const client = new WebClient(process.env.SLACK_BOT_TOKEN, {
@@ -7,7 +8,6 @@ const client = new WebClient(process.env.SLACK_BOT_TOKEN, {
   logLevel: LogLevel.DEBUG,
 });
 
-const FINVIZ_SYMBOLS = ["TSLA", "PLTR", "QQQ", "SOXX", "SCHD"];
 const finvizURL = (symbol: string) => {
   return `https://finviz.com/quote.ashx?t=${symbol}&p=w`;
 };
