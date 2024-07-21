@@ -30,11 +30,13 @@ const finvizCapture = async (
   try {
     page.goto(url).catch((e: any) => {});
     await page.waitForTimeout(2000);
-    page
+    await page
       .locator(locator)
       .screenshot({ path })
-      .catch((e: any) => {});
-    await page.waitForTimeout(2000);
+      .catch((e: any) => {
+        console.error(e);
+      });
+    // await page.waitForTimeout(2000);
   } catch (error) {
     // finviz쪽에서 크롤링을 막은듯해서 state load가 안되는듯 하여 임시처리
   }
@@ -50,7 +52,7 @@ test("finviz home", async ({ page }) => {
 });
 
 export const finvizURL = (symbol: string) => {
-  return `https://finviz.com/quote.ashx?t=${symbol}&p=w`;
+  return `https://finviz.com/quote.ashx?t=${symbol}&p=d`;
 };
 test.describe("finviz symbols", () => {
   for (const symbol of FINVIZ_SYMBOLS) {
@@ -63,4 +65,17 @@ test.describe("finviz symbols", () => {
       );
     });
   }
+});
+
+test.describe("CNN Fear and Greed", () => {
+  test("CNN Fear and Greed", async ({ page }) => {
+    page
+      .goto("https://edition.cnn.com/markets/fear-and-greed")
+      .catch((e: any) => {});
+    await page.waitForTimeout(2000);
+    await page
+      .locator(".market-tabbed-container")
+      .screenshot({ path: `./${testResultPath}/fear-and-greed.png` })
+      .catch((e: any) => {});
+  });
 });
