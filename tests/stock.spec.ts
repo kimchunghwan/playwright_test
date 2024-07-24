@@ -36,7 +36,6 @@ const finvizCapture = async (
       .catch((e: any) => {
         console.error(e);
       });
-    // await page.waitForTimeout(2000);
   } catch (error) {
     // finviz쪽에서 크롤링을 막은듯해서 state load가 안되는듯 하여 임시처리
   }
@@ -52,7 +51,7 @@ test("finviz home", async ({ page }) => {
 });
 
 export const finvizURL = (symbol: string) => {
-  return `https://finviz.com/quote.ashx?t=${symbol}&p=d`;
+  return `https://finviz.com/quote.ashx?t=${symbol}&p=w`;
 };
 test.describe("finviz symbols", () => {
   for (const symbol of FINVIZ_SYMBOLS) {
