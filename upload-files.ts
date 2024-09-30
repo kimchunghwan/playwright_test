@@ -1,5 +1,6 @@
-const { WebClient, LogLevel } = require("@slack/web-api");
-const { createReadStream } = require("fs");
+import { WebClient, LogLevel } from "@slack/web-api";
+import fs from "fs";
+import { FINVIZ_SYMBOLS } from "./define";
 // WebClient instantiates a client that can call API methods
 // When using Bolt, you can use either `app.client` or the `client` passed to listeners.
 const client = new WebClient(process.env.SLACK_BOT_TOKEN, {
@@ -7,9 +8,10 @@ const client = new WebClient(process.env.SLACK_BOT_TOKEN, {
   logLevel: LogLevel.DEBUG,
 });
 
-const FINVIZ_SYMBOLS = ["TSLA", "PLTR", "ADBE", "SNOW", "QQQ", "SOXX"];
-const finvizURL = (symbol) => {
-  return `https://finviz.com/quote.ashx?t=${symbol}&p=d`;
+const UTC_9 = 9 * 60 * 60 * 1000;
+
+const finvizURL = (symbol: string) => {
+  return `https://finviz.com/quote.ashx?t=${symbol}&p=w`;
 };
 // The name of the file you're going to upload
 const folder = "./test-results/";
@@ -18,34 +20,39 @@ const channelId = "C032JKDP3TJ";
 
 const uploadFile = async () => {
   try {
-    const files = getfiles(folder);
-    const result = await Promise.all[
+    const chatResult = await client.chat.postMessage({
+      channel: channelId,
+      text: new Date(new Date().getTime() + UTC_9).toISOString(),
+    });
+    const thread_ts = chatResult.ts;
+    const files = await getfiles(folder);
+    const result = await Promise.all(
       files.map(async (fileName) => {
         const url = getUrlFromFilename(fileName);
-        const result = await client.files.upload({
+        const result = await client.files.uploadV2({
           // channels can be a list of one to many strings
           channels: channelId,
           initial_comment: `${fileName} :smile: ${url}`,
-          // Include your filename in a ReadStream here
-          file: createReadStream(folder + fileName),
+          file: folder + fileName,
+          filename: fileName,
+          thread_ts,
         });
         console.log(result);
       })
-    ];
+    );
   } catch (error) {
     console.error(error);
   }
 };
 
-const getfiles = (folder) => {
+const getfiles = async (folder: string) => {
   // get files list in  test-results folder
-  const fs = require("fs");
-  const files = fs.readdirSync(folder);
-  console.log(files);
+
+  const files: string[] = fs.readdirSync(folder);
   return files;
 };
 
-const getUrlFromFilename = (filename) => {
+const getUrlFromFilename = (filename: string) => {
   for (let symbol of FINVIZ_SYMBOLS) {
     if (filename.includes(symbol)) {
       return finvizURL(symbol);
@@ -54,4 +61,3 @@ const getUrlFromFilename = (filename) => {
 };
 
 uploadFile();
-// console.log('files:', getfiles('./test-results/'));
