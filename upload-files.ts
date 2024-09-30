@@ -8,6 +8,8 @@ const client = new WebClient(process.env.SLACK_BOT_TOKEN, {
   logLevel: LogLevel.DEBUG,
 });
 
+const UTC_9 = 9 * 60 * 60 * 1000;
+
 const finvizURL = (symbol: string) => {
   return `https://finviz.com/quote.ashx?t=${symbol}&p=w`;
 };
@@ -18,6 +20,11 @@ const channelId = "C032JKDP3TJ";
 
 const uploadFile = async () => {
   try {
+    const chatResult = await client.chat.postMessage({
+      channel: channelId,
+      text: new Date(new Date().getTime() + UTC_9).toISOString(),
+    });
+    const thread_ts = chatResult.ts;
     const files = await getfiles(folder);
     const result = await Promise.all(
       files.map(async (fileName) => {
@@ -28,6 +35,7 @@ const uploadFile = async () => {
           initial_comment: `${fileName} :smile: ${url}`,
           file: folder + fileName,
           filename: fileName,
+          thread_ts,
         });
         console.log(result);
       })
@@ -37,9 +45,9 @@ const uploadFile = async () => {
   }
 };
 
-const getfiles =async (folder:string) => {
+const getfiles = async (folder: string) => {
   // get files list in  test-results folder
-  
+
   const files: string[] = fs.readdirSync(folder);
   return files;
 };
@@ -53,4 +61,3 @@ const getUrlFromFilename = (filename: string) => {
 };
 
 uploadFile();
-// console.log('files:', getfiles('./test-results/'));
