@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { FINVIZ_SYMBOLS } from "../define";
+import { FINVIZ_SYMBOLS, finvizURL, GROWTH_SYMBOLS } from "../define";
 
 const testResultPath = "test-results";
 test("kospi, kosdaq", async ({ page }) => {
@@ -50,9 +50,6 @@ test("finviz home", async ({ page }) => {
   );
 });
 
-export const finvizURL = (symbol: string) => {
-  return `https://finviz.com/quote.ashx?t=${symbol}&p=w`;
-};
 test.describe("finviz symbols", () => {
   for (const symbol of FINVIZ_SYMBOLS) {
     test(`finviz ${symbol}`, async ({ page }) => {
